@@ -8,22 +8,76 @@ To write a program to implement the Decision Tree Classifier Model for Predictin
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
 ## Algorithm
-1. 
-2. 
-3. 
-4. 
+1.Import the required libraries.
+
+2.Upload and read the dataset.
+
+3.Check for any null values using the isnull() function.
+
+4.From sklearn.tree import DecisionTreeClassifier and use criterion as entropy.
+
+5.Find the accuracy of the model and predict the required values by importing the required module from sklearn.
 
 ## Program:
 ```
 /*
 Program to implement the Decision Tree Classifier Model for Predicting Employee Churn.
-Developed by: 
-RegisterNumber:  
+Developed by: PAVITHRA S
+RegisterNumber: 212223220072 
 */
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+import matplotlib.pyplot as plt 
+
+
+data = pd.read_csv("Employee.csv")
+
+
+data.head()
+data.info()
+data.isnull().sum()
+data["left"].value_counts()
+
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+data["salary"] = le.fit_transform(data["salary"])
+data.head()
+
+
+x = data[["satisfaction_level", "last_evaluation", "number_project", "average_montly_hours",
+          "time_spend_company", "Work_accident", "promotion_last_5years", "salary"]]
+x.head()
+y = data["left"]
+
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=100)
+
+
+dt = DecisionTreeClassifier(criterion="entropy")
+dt.fit(x_train, y_train)
+
+
+y_pred = dt.predict(x_test)
+from sklearn import metrics
+accuracy = metrics.accuracy_score(y_test, y_pred)
+accuracy
+
+
+dt.predict([[0.5, 0.8, 9, 260, 6, 0, 1, 2]])
+
+
+plt.figure(figsize=(8, 6))
+plot_tree(dt, feature_names=x.columns, class_names=['stayed', 'left'], filled=True)
+plt.show() 
+
 ```
 
 ## Output:
-![decision tree classifier model](sam.png)
+<img width="668" height="369" alt="497644414-44424f83-33c2-4d3b-8fcf-5cd27389b50d" src="https://github.com/user-attachments/assets/a12b3ff1-99ea-4e3e-aff3-0d6678ac7709" />
+
+<img width="881" height="594" alt="497644455-bcf3bb5e-46ec-44b8-8ec8-bd9a2f4101d0" src="https://github.com/user-attachments/assets/624926b0-49f4-47d6-b9c8-e5c155aa0744" />
 
 
 ## Result:
